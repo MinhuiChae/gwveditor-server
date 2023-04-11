@@ -54,5 +54,4 @@ class WorkService {
   }
 }
 
-export { IWorkJsonSet };
 export default WorkService;
