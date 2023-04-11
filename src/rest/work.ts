@@ -4,14 +4,19 @@ import express, {
   NextFunction,
   Router,
 } from 'express';
+
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 const router = express.Router();
 
 router
   .get("/*", (req: Request, res: Response, next: NextFunction) => {
-    console.log('start get')
+    // console.log('req> ', JSON.stringify(req.body));
   })
   .post("/", (req: Request, res: Response, next: NextFunction) => {
-    console.log('start post')
+    console.log('req> ', JSON.stringify(req.body));
+    res.send('sucs')
   });
 
 export default router;
