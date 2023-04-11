@@ -16,9 +16,19 @@ import runCommand from '../lib/runCommand';
 dotenv.config();
 const router = express.Router();
 
+const getProgress = (strs: string[], totFrames: string): string => {
+  const findStr = strs.find((str) => str.match(/^frame=/g));
+  let percent = '0';
+  console.log('findStr > ', findStr)
+
+  return percent;
+}
+
 const getExportTxtFile = (filename: string): string => {
   return `./export/progress-${filename}.txt`
 }
+
+const ffmpegPath = process.env.FFMPEG_COMMAND_PATH ?? 'ffmpeg';
 
 router
   .get("/*", (req: Request, res: Response, next: NextFunction) => {
@@ -38,12 +48,16 @@ router
     const progressFileName = getExportTxtFile(exportFileName);
 
     try {
-      runCommand("ffmpeg", spawnCmds, (data:string) => {
-        console.log('data > ', data)
-        
-      }, (args: any) => {
+      runCommand(ffmpegPath, spawnCmds, (data:string) => {
+        const strArr = data.toString().split('\n');
+        const percent = getProgress(strArr, exportFrames);  
+        res.send(percent)
+        console.log('command start 5000')
+      },(args: any) => {
         console.log('args > ', args)
-        res.send('success')
+        if (args === 1){
+          res.status(204).send('Gernerate Failed');
+        } 
       },(err: any) => {
         console.log("error> ", err);
         res.status(404).send({
