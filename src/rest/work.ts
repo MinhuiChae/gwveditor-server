@@ -30,6 +30,10 @@ const getExportTxtFile = (filename: string): string => {
 
 const ffmpegPath = process.env.FFMPEG_COMMAND_PATH ?? 'ffmpeg';
 
+const sendData = () => {
+  console.log('command start 5000')
+}
+
 router
   .get("/*", (req: Request, res: Response, next: NextFunction) => {
     // console.log('req> ', JSON.stringify(req.body));
@@ -47,14 +51,10 @@ router
     const exportFileName = workService.getExportFileName();
     const progressFileName = getExportTxtFile(exportFileName);
 
+   
+
     try {
-      runCommand(ffmpegPath, spawnCmds, (data:string) => {
-        const strArr = data.toString().split('\n');
-        const percent = getProgress(strArr, exportFrames);  
-        res.send(percent)
-        console.log('command start 5000')
-      },(args: any) => {
-        console.log('args > ', args)
+      runCommand(ffmpegPath, spawnCmds, sendData,(args: any) => {
         if (args === 1){
           res.status(204).send('Gernerate Failed');
         } 
