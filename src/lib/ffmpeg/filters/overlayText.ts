@@ -215,7 +215,6 @@ class OverlayTextFilter extends Ffilters {
       textCommands.push(textCommand.join(":"));
     });
 
-    console.log(" ..... ", textCommands);
     return `${this.getInputVideoStreamName()}${textCommands.join(',')}${this.outVideoStreamName}`;
   }
 

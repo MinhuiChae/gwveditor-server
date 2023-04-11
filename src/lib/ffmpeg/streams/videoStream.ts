@@ -46,8 +46,6 @@ class VideoStream extends FfmpegStream {
       this.framerate = renderItem.framerate;
     }
 
-    console.log('renderItem> ', renderItem);
-
     // if ((renderItem as IRenderItemVideo).assetframe) {
     //   this.assetframe.in = Number((renderItem as IRenderItemVideo).assetframe?.in);
     //   this.assetframe.out = Number((renderItem as IRenderItemVideo).assetframe?.out);

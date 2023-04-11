@@ -24,8 +24,11 @@ router
 
     const body: IWorkJsonSet = req.body;
     const workService = new WorkService(body);
-    console.log(workService)
+    let commandString = workService.runFfmpegCommand().getCommand();
+    let resSend = false;
 
+    const spawnCmds = workService.getCommandForSpawn();
+    console.log('spawnCmds > ', spawnCmds)
     res.send('sucs')
   });
 

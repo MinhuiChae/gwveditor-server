@@ -37,7 +37,6 @@ class OverlayAudioFilter extends Ffilters {
 
   constructor(data: IFilterMakeData) {
     super(data.assetData, data.assetIndex, data.filterNumber, data.inputStream);   
-    console.log('OverlayAudioFilter> ', data);
     this.data = data.data as IRenderItemAudio;
     this.initData();
     this.arrangeStream();

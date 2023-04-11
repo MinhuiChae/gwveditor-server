@@ -112,7 +112,6 @@ abstract class Ffilters {
   }
 
   set outStreamVideoName(name: string) {
-    console.log(this._outStream.video);
     (this._outStream.video as FfmpegStream).name = name;
   }
 
