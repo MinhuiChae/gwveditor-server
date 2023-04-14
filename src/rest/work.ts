@@ -48,11 +48,13 @@ router
     const exportFrames = workService.getExportFrames();
     const exportFileName = workService.getExportFileName();
     const progressFileName = getExportTxtFile(exportFileName);
-    console.log(spawnCmds.join(" "));
     try { 
-      runCommand(ffmpegPath, spawnCmds, () => {
-        console.log('success');
-        res.send('success')
+      runCommand(ffmpegPath, spawnCmds, (data: string) => {
+        console.log('command');
+        if(resSend === false) {
+          res.send('success');
+          resSend = true;
+        }
       }, (args: any) => {
         if (args === 1) {
           res.status(204).send('Gernerate Failed');
