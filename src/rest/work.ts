@@ -30,8 +30,10 @@ const getExportTxtFile = (filename: string): string => {
 
 const ffmpegPath = process.env.FFMPEG_COMMAND_PATH ?? 'ffmpeg';
 
-const sendData = () => {
-  console.log('command start 5000')
+const sendData = (res: Response) => {
+  console.log('success')
+  res.send('success')
+  console.log(111111)
 }
 
 router
@@ -47,31 +49,28 @@ router
     let resSend = false;
 
     const spawnCmds = workService.getCommandForSpawn();
+    const spawnCmdsTest = ['-i', 'video/video1.mov','-c:v','libx264', 'file.flv']
     const exportFrames = workService.getExportFrames();
     const exportFileName = workService.getExportFileName();
     const progressFileName = getExportTxtFile(exportFileName);
-
-   
-
-    try {
-      runCommand(ffmpegPath, spawnCmds, sendData,(args: any) => {
-        if (args === 1){
+    try { 
+      runCommand(ffmpegPath, spawnCmdsTest, sendData(res), (args: any) => {
+        // console.log("args> ",spawnCmds);
+        // console.log("args> ",spawnCmdsTest);
+       
+        if (args === 1) {
           res.status(204).send('Gernerate Failed');
         } 
-      },(err: any) => {
+      }, (err: any) => {
         console.log("error> ", err);
         res.status(404).send({
-          status: false,
+          status: false, 
           msg: 'FFMPEG Command Error Gernerate Failed',
-          err: err});
-      });
+          err: err}); 
+      })
     } catch(err) {
-      console.log(err)
+      res.status(404).send('Gernerate Failed');
     }
-
-
-
-    
   });
 
 export default router;
