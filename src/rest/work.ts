@@ -19,7 +19,12 @@ const router = express.Router();
 const getProgress = (strs: string[], totFrames: string): string => {
   const findStr = strs.find((str) => str.match(/^frame=/g));
   let percent = '0';
-  console.log('findStr > ', findStr)
+  if(findStr) {
+    const progressFrame = findStr.split('=');
+    const tFrames = Number(totFrames);
+    const nFrames = Number(progressFrame[1]);
+    percent = (nFrames/tFrames * 100).toFixed(3);
+  }
 
   return percent;
 }
@@ -50,7 +55,11 @@ router
     const progressFileName = getExportTxtFile(exportFileName);
     try { 
       runCommand(ffmpegPath, spawnCmds, (data: string) => {
-        console.log('command');
+        const strArr = data.toString().split('\n');
+        const percent = getProgress(strArr, exportFrames);
+        console.log('percent > ', percent)
+
+  
         if(resSend === false) {
           res.send('success');
           resSend = true;
