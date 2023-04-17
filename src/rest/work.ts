@@ -12,6 +12,7 @@ import {
 import * as dotenv from 'dotenv';
 import WorkService from '../service/workService';
 import runCommand from '../lib/runCommand';
+import fs from 'fs';
 
 dotenv.config();
 const router = express.Router();
@@ -57,8 +58,14 @@ router
       runCommand(ffmpegPath, spawnCmds, (data: string) => {
         const strArr = data.toString().split('\n');
         const percent = getProgress(strArr, exportFrames);
-        console.log('percent > ', percent)
+        //percent 가 100이 넘음
+        if(percent) {
+          const dateTime = new Date();
+          const writeStr = `{"date":"${dateTime}", "percent":"${percent}"}`;
 
+          fs.writeFileSync(progressFileName, writeStr);
+          
+        }
   
         if(resSend === false) {
           res.send('success');
