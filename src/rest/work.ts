@@ -31,7 +31,7 @@ const getProgress = (strs: string[], totFrames: string): string => {
 }
 
 const getExportTxtFile = (filename: string): string => {
-  return `./export/progress-${filename}.txt`
+  return `./export/progress-${filename}.txt`;
 }
 
 const ffmpegPath = process.env.FFMPEG_COMMAND_PATH ?? 'ffmpeg';
